@@ -11,7 +11,7 @@ const BookItem = observer(({bookT}) => {
     return (
         <Col md={12}>
             <div className="d-flex mb-2 mt-4" border={"light"} >
-                <Image className="mt-1" style={{marginRight:"10",minWidth:110,cursor:"pointer"}} width={110} height={150} src={'https://libraryback-j3lh.onrender.com'  + bookT.img} />
+                <Image className="mt-1" style={{marginRight:"10",minWidth:110,cursor:"pointer"}} width={110} height={150} src={'https://libraryback-j3lh.onrender.com/'  + bookT.img} />
                 <div  style={{minWidth:150, marginLeft:10}}>
                     <div className="d-flex">
                         <div style={{cursor:"pointer",fontWeight:"bold"}} onClick={()=> navigate("/book" + "/"+ bookT.id)}>{bookT.name}</div>
