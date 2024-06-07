@@ -37,7 +37,7 @@ const Book = observer(() => {
         <Container className="mt-3">
             <h1 >{bookT.name}</h1>
             <div>
-                <Image width={270} height={400} src={'http://localhost:5000/'+bookT.img}></Image>
+                <Image width={270} height={400} src={'https://libraryback-j3lh.onrender.com/'+bookT.img}></Image>
                 <div>
                     <h2>Характеристики книги</h2>
                     <h5 style={{fontWeight:"normal"}}>• Автор: {bookT.author}</h5>
