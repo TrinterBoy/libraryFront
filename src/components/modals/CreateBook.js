@@ -1,40 +1,44 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Button, Dropdown, Form, Modal} from "react-bootstrap";
-import {Context} from "../../index";
-import {createBook, fetchGenre} from "../../http/bookAPI";
-import {observer} from "mobx-react-lite";
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Dropdown, Form, Modal } from "react-bootstrap";
+import { Context } from "../../index";
+import { createBook, fetchGenre } from "../../http/bookAPI";
+import { observer } from "mobx-react-lite";
 
-const CreateBook = observer(({show,onHide}) => {
-    const {book} = useContext(Context)
-    const [name,setName]=useState('')
-    const [author,setAuthor]=useState('')
-    const [year,setYear]=useState(0)
-    const [desc,setDesc]=useState('')
-    const [file,setFile]=useState(null)
+const CreateBook = observer(({ show, onHide }) => {
+    const { book } = useContext(Context)
+    const [name, setName] = useState('')
+    const [author, setAuthor] = useState('')
+    const [year, setYear] = useState(0)
+    const [desc, setDesc] = useState('')
+    const [file, setFile] = useState(null)
+    const [pdf, setPdf] = useState(null)
 
-    useEffect(()=>{
-        fetchGenre().then(data=>book.setGenres(data))
-    },[])
+    useEffect(() => {
+        fetchGenre().then(data => book.setGenres(data))
+    }, [])
 
-    const selectFile=e=>{
+    const selectFile = e => {
         setFile(e.target.files[0])
     }
-    const addBook = ()=>{
+    const selectPdf = e => {
+        setPdf(e.target.files[0])
+    }
+    const addBook = () => {
         if (book.selectedGenre.id == undefined) {
             alert("Оберіть жанр")
-        }
-        else{
+        } else {
             const formData = new FormData()
             formData.append('name', name)
             formData.append('author', author)
-            formData.append('year', `${year}`)
+            formData.append('year', `${ year }`)
             formData.append('genreId', book.selectedGenre.id)
             formData.append('desc', desc)
-            formData.append('isA', `${true}`)
+            formData.append('isA', `${ true }`)
             formData.append('img', file)
+            formData.append('pdf', pdf)
             createBook(formData).then(() => {
                 alert("Книгу додано")
-            }).then(data => onHide()).then(()=>{
+            }).then(data => onHide()).then(() => {
                 setName("")
                 setYear(0)
                 setAuthor("")
@@ -44,8 +48,8 @@ const CreateBook = observer(({show,onHide}) => {
     }
     return (
         <Modal
-            show={show}
-            onHide={onHide}
+            show={ show }
+            onHide={ onHide }
             size="lg"
             centered
         >
@@ -57,49 +61,63 @@ const CreateBook = observer(({show,onHide}) => {
             <Modal.Body>
                 <Form>
                     <Form.Control
-                        value={name}
-                        onChange={e=>setName(e.target.value)}
+                        value={ name }
+                        onChange={ e => setName(e.target.value) }
                         className="mt-3"
                         placeholder="Введіть назву книги"
                     />
                     <Form.Control
-                        value={author}
-                        onChange={e=>setAuthor(e.target.value)}
+                        value={ author }
+                        onChange={ e => setAuthor(e.target.value) }
                         className="mt-3"
                         placeholder="Введіть ім'я автора"
                     />
                     <Dropdown>
-                        <Dropdown.Toggle className="mt-3">{book.selectedGenre.name || "Оберіть жанр"}</Dropdown.Toggle>
+                        <Dropdown.Toggle
+                            className="mt-3">{ book.selectedGenre.name || "Оберіть жанр" }</Dropdown.Toggle>
                         <Dropdown.Menu>
-                            {book.genres.map(genre=>
-                                <Dropdown.Item onClick={()=> book.setSelectedGenres(genre)} key={genre.id}>{genre.name}</Dropdown.Item>
-                            )}
+                            { book.genres.map(genre =>
+                                <Dropdown.Item onClick={ () => book.setSelectedGenres(genre) }
+                                               key={ genre.id }>{ genre.name }</Dropdown.Item>
+                            ) }
                         </Dropdown.Menu>
                     </Dropdown>
                     <Form.Control
                         className="mt-3"
-                        value={year}
-                        onChange={e=>setYear(Number(e.target.value))}
+                        value={ year }
+                        onChange={ e => setYear(Number(e.target.value)) }
                         placeholder="Введіть рік видання"
                         type="number"
                     />
                     <Form.Control
-                        className="mt-3"
-                        value={desc}
-                        onChange={e=>setDesc(e.target.value)}
+                        className="mt-3 mb-3"
+                        value={ desc }
+                        onChange={ e => setDesc(e.target.value) }
                         placeholder="Введіть опис книги"
                     />
-                    <Form.Control
-                        className="mt-3"
-                        placeholder="Оберіть фото книги"
-                        type="file"
-                        onChange={selectFile}
-                    />
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Label>Оберіть фото книги</Form.Label>
+                        <Form.Control
+                            placeholder="Оберіть фото книги"
+                            type="file"
+                            accept=".png,.jpg,.jpeg"
+                            onChange={ selectFile }
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Label>Оберіть електронну версію книги (PDF)</Form.Label>
+                        <Form.Control
+                            placeholder="Оберіть електроний файл книги"
+                            type="file"
+                            accept=".pdf,"
+                            onChange={ selectPdf }
+                        />
+                    </Form.Group>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant={"outline-danger"} onClick={onHide}>Закрити</Button>
-                <Button variant={"outline-success"} onClick={addBook}>Додати</Button>
+                <Button variant={ "outline-danger" } onClick={ onHide }>Закрити</Button>
+                <Button variant={ "outline-success" } onClick={ addBook }>Додати</Button>
             </Modal.Footer>
         </Modal>
     );

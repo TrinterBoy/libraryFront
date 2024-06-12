@@ -53,7 +53,16 @@ const Book = observer(() => {
                     <div className="text-muted">{bookT.desc}</div>
                 </div>
             </div>
-            <Button style={{width:150, marginLeft:75, marginTop:20}} onClick={AddBasket} >Додати у кошик</Button>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+                <Button style={{width:150, marginLeft:75, marginTop:20}} onClick={AddBasket} >Додати у кошик</Button>
+                <Button style={{width:150, marginLeft:75, marginTop:20}} onClick={async () => {
+                    const link = document.createElement('a');
+                    link.href = `https://libraryback-j3lh.onrender.com/${bookT.id}/${bookT.name}.pdf`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }}>Читати книгу</Button>
+            </div>
         </Container>
 
     );
