@@ -25,7 +25,7 @@ const NavBar = observer(() => {
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
-                <NavLink style={{color:'white',textDecoration:'none'}} to="/" element={<Shop/>}>Бібліотека One Touch</NavLink>
+                <NavLink style={{color:'white',textDecoration:'none'}} to="/" element={<Shop/>}>Бібліотека</NavLink>
                 {user.isAuth ?
                     <Nav style={{color:'white'}}>
                         <Button variant={"outline-light"} onClick={Click}>{<BsCart3/>}</Button>
