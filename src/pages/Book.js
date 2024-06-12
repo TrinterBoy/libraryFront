@@ -57,7 +57,7 @@ const Book = observer(() => {
                 <Button style={{width:150, marginLeft:75, marginTop:20}} onClick={AddBasket} >Додати у кошик</Button>
                 <Button style={{width:150, marginLeft:75, marginTop:20}} onClick={async () => {
                     const link = document.createElement('a');
-                    link.href = `https://libraryback-j3lh.onrender.com/${bookT.id}/${bookT.name}.pdf`;
+                    link.href = `https://libraryback-j3lh.onrender.com/${bookT.id}/book.pdf`;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
